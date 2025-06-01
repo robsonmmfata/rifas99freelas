@@ -1,20 +1,27 @@
-
-import React, { useState } from 'react';
-import { useRaffle } from '../contexts/RaffleContext';
+import React, { useState } from "react";
+import { useRaffle } from "../contexts/RaffleContext";
 
 const NumberSelector = () => {
   const [selectedOption, setSelectedOption] = useState(350);
-  const [quantity, setQuantity] = useState(150);
+
+  const [quantity, setQuantity] = useState(50);
+
   const [showNumberGrid, setShowNumberGrid] = useState(false);
-  const { selectedNumbers, addToSelectedNumbers, clearSelectedNumbers, addToCart } = useRaffle();
+
+  const {
+    selectedNumbers,
+    addToSelectedNumbers,
+    clearSelectedNumbers,
+    addToCart,
+  } = useRaffle();
 
   const options = [
-    { value: 50, label: '+50', popular: false },
-    { value: 350, label: '+350', popular: true },
-    { value: 850, label: '+850', popular: false },
-    { value: 1000, label: '+1000', popular: false },
-    { value: 5000, label: '+5000', popular: false },
-    { value: 10000, label: '+10000', popular: false },
+    { value: 50, label: "+50", popular: false },
+    { value: 350, label: "+350", popular: true },
+    { value: 850, label: "+850", popular: false },
+    { value: 1000, label: "+1000", popular: false },
+    { value: 5000, label: "+5000", popular: false },
+    { value: 10000, label: "+10000", popular: false },
   ];
 
   const decreaseQuantity = () => {
@@ -30,7 +37,7 @@ const NumberSelector = () => {
   const generateRandomNumbers = () => {
     const numbers = [];
     while (numbers.length < quantity) {
-      const random = Math.floor(Math.random() * 500) + 1;
+      const random = Math.floor(Math.random() * 100) + 1;
       if (!numbers.includes(random)) {
         numbers.push(random);
       }
@@ -42,13 +49,16 @@ const NumberSelector = () => {
   const selectOptionNumbers = (optionValue: number) => {
     setSelectedOption(optionValue);
     setQuantity(optionValue);
+
     const numbers = [];
+
     while (numbers.length < optionValue) {
-      const random = Math.floor(Math.random() * 500) + 1;
+      const random = Math.floor(Math.random() * 100) + 1;
       if (!numbers.includes(random)) {
         numbers.push(random);
       }
     }
+
     clearSelectedNumbers();
     addToSelectedNumbers(numbers);
   };
@@ -61,7 +71,7 @@ const NumberSelector = () => {
           key={i}
           onClick={() => {
             if (selectedNumbers.includes(i)) {
-              const newNumbers = selectedNumbers.filter(n => n !== i);
+              const newNumbers = selectedNumbers.filter((n) => n !== i);
               clearSelectedNumbers();
               addToSelectedNumbers(newNumbers);
             } else {
@@ -70,18 +80,18 @@ const NumberSelector = () => {
           }}
           className={`w-10 h-10 text-xs font-semibold rounded border transition-all ${
             selectedNumbers.includes(i)
-              ? 'bg-green-500 text-white border-green-500'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+              ? "bg-green-500 text-white border-green-500"
+              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
           }`}
         >
-          {i.toString().padStart(2, '0')}
+          {i.toString().padStart(2, "0")}
         </button>
       );
     }
     return numbers;
   };
 
-  const totalPrice = selectedNumbers.length * 0.02;
+  const totalPrice = selectedNumbers.length * 0.2;
 
   return (
     <div className="bg-gray-100 p-4 rounded-lg">
@@ -91,7 +101,7 @@ const NumberSelector = () => {
         </svg>
         <span className="font-semibold">Prêmios</span>
       </div>
-      
+
       <p className="text-center text-sm text-gray-600 mb-4">
         Quanto mais títulos, mais chances de ganhar!
       </p>
@@ -104,9 +114,9 @@ const NumberSelector = () => {
             className={`relative p-3 rounded text-center font-semibold transition-all ${
               selectedOption === option.value
                 ? option.popular
-                  ? 'bg-green-500 text-white'
-                  : 'bg-black text-white'
-                : 'bg-black text-white hover:bg-gray-800'
+                  ? "bg-green-500 text-white"
+                  : "bg-black text-white"
+                : "bg-black text-white hover:bg-gray-800"
             }`}
           >
             {option.popular && (
@@ -121,14 +131,14 @@ const NumberSelector = () => {
       </div>
 
       <div className="flex items-center justify-center space-x-4 mb-4">
-        <button 
+        <button
           onClick={decreaseQuantity}
           className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400 transition-colors"
         >
           <span className="text-lg font-bold">-</span>
         </button>
         <span className="text-2xl font-bold">{quantity}</span>
-        <button 
+        <button
           onClick={increaseQuantity}
           className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400 transition-colors"
         >
@@ -138,20 +148,20 @@ const NumberSelector = () => {
 
       <div className="mb-4 space-y-2">
         <div className="flex space-x-2">
-          <button 
+          <button
             onClick={() => setShowNumberGrid(!showNumberGrid)}
             className="flex-1 bg-blue-600 text-white py-2 px-4 rounded font-semibold hover:bg-blue-700 transition-colors"
           >
-            {showNumberGrid ? 'Ocultar números' : 'Escolher números'}
+            {showNumberGrid ? "Ocultar números" : "Escolher números"}
           </button>
-          <button 
+          <button
             onClick={generateRandomNumbers}
             className="flex-1 bg-yellow-600 text-white py-2 px-4 rounded font-semibold hover:bg-yellow-700 transition-colors"
           >
             Números aleatórios
           </button>
         </div>
-        
+
         {selectedNumbers.length > 0 && (
           <div className="text-center text-sm text-gray-600">
             {selectedNumbers.length} número(s) selecionado(s)
@@ -161,14 +171,16 @@ const NumberSelector = () => {
 
       {showNumberGrid && (
         <div className="mb-4 p-4 bg-white rounded border">
-          <h3 className="text-center font-semibold mb-3">Escolha seus números</h3>
+          <h3 className="text-center font-semibold mb-3">
+            Escolha seus números
+          </h3>
           <div className="grid grid-cols-10 gap-1 max-h-60 overflow-y-auto">
             {renderNumberGrid()}
           </div>
         </div>
       )}
 
-      <button 
+      <button
         onClick={addToCart}
         className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
       >
