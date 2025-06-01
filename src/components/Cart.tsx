@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   const {
     cartItems,
     removeFromCart,
@@ -13,8 +14,11 @@ const Cart = () => {
     totalCartPrice,
     totalCartItems,
   } = useRaffle();
+
   const { toast } = useToast();
+
   const auth = useAuth();
+
   const navigate = useNavigate();
 
   const checkout = () => {
@@ -25,18 +29,17 @@ const Cart = () => {
           "Por favor, faça login ou cadastre-se para finalizar a compra.",
         variant: "destructive",
       });
-      navigate("/register");
-      return;
+
+      return navigate("/register");
     }
 
     if (cartItems.length === 0) {
-      toast({
+      return toast({
         title: "Carrinho vazio",
         description:
           "Adicione alguns números ao carrinho antes de finalizar a compra.",
         variant: "destructive",
       });
-      return;
     }
 
     toast({
@@ -45,6 +48,8 @@ const Cart = () => {
         2
       )} - ${totalCartItems} número(s)`,
     });
+
+    console.log(cartItems);
 
     // Aqui seria integrado com sistema de pagamento real
     setTimeout(() => {
@@ -95,7 +100,7 @@ const Cart = () => {
 
       {/* Modal do carrinho */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white w-full max-w-md max-h-[90vh] rounded-t-lg sm:rounded-lg overflow-hidden">
             <div className="flex items-center justify-between p-4 border-b bg-green-50">
               <h2 className="text-lg font-semibold text-green-800">
@@ -162,7 +167,7 @@ const Cart = () => {
                       </div>
                       <div className="flex items-center space-x-2 ml-2">
                         <span className="font-semibold text-green-600">
-                          R$ {item.price.toFixed(2)}
+                          R$ {item.price.toFixed(2).replace(".", ",")}
                         </span>
                         <button
                           onClick={() => removeFromCart(index)}
@@ -206,9 +211,9 @@ const Cart = () => {
                 <div className="space-y-2">
                   <button
                     onClick={checkout}
-                    className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                    className="w-full bg-green-600 text-white py-2 rounded-sm font-semibold hover:bg-green-700 transition-colors"
                   >
-                    Finalizar Compra
+                    Finalizar Pedido
                   </button>
                   <button
                     onClick={() => {
@@ -219,7 +224,7 @@ const Cart = () => {
                           "Todos os itens foram removidos do carrinho.",
                       });
                     }}
-                    className="w-full bg-gray-500 text-white py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors"
+                    className="w-full bg-gray-500 text-white py-2 rounded-sm font-semibold hover:bg-gray-600 transition-colors"
                   >
                     Limpar Carrinho
                   </button>

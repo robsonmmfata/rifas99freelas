@@ -2,9 +2,7 @@ import { useState } from "react";
 import { useRaffle } from "../contexts/RaffleContext";
 
 const NumbersGrid = () => {
-  const [soldNumbers] = useState<number[]>([
-    15, 23, 45, 67, 89, 102, 156, 234, 345, 456,
-  ]);
+  const [soldNumbers] = useState<number[]>([15, 23, 45, 67, 89]);
 
   const { selectedNumbers, toggleNumber } = useRaffle();
 
